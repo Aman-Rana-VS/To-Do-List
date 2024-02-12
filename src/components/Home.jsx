@@ -1,42 +1,36 @@
 import React, { useEffect, useState } from 'react'
-import List from './List';
+import {v4 as uuidv4} from 'uuid';
 
 const Home = () => {
   let [task, setTask] = useState("");
   let [tasksArray, setTasksArray] = useState([]);
-  let [completedTask, setCompletedTasks] = useState([]);
+
   let onInputChangeHandler = (e) => {
     setTask(e.target.value);
   }
 
   let onSubmitHandler = () => {
-    setTasksArray(prev => [...prev, task]);
+    if(task.trim() === "")
+    {
+      alert("Pleae enter a task !");
+      return;
+    }
+    setTasksArray([...tasksArray, {id: uuidv4(),taskBody : task, completed:false}]);
+    setTask("");
   }
 
-  let onCompleteHandler = (ind) => {
-    if(completedTask.includes(ind))
-    {
-        console.log("offClickHandler")
-        setCompletedTasks(prev => {
-            return prev.filter((el, index) => index !== ind);
-        });
-    }
-    else 
-    {
-        console.log("onClickHandler")
-        setCompletedTasks(prev => {
-            return [...prev, ind];
-        })
-    }
+  let onCompleteHandler = (id) => {
+    console.log("clicked")
+    const temp = [...tasksArray];
+
+    let t = temp.find((item) => item.id === id);
+    t.completed = !t.completed;
+    setTasksArray(temp);
   } 
 
-  let handleDelete = (ind) => {
-    setTasksArray(prev => prev.filter((el, index) => index !== ind))
-    setCompletedTasks(prev => prev.filter((el, index) => index !== ind));
+  let handleDelete = (id) => {
+    setTasksArray(prev => prev.filter((el) => el.id !== id))
   }
-  useEffect(()=>{
-    // console.log(1);
-  },[setTasksArray])
 
   return (
     <div className="container">
@@ -47,12 +41,12 @@ const Home = () => {
                 <button type="button" onClick={onSubmitHandler}>Add Task</button>
             </form>
             <ul>
-                {tasksArray.map((task, ind) => {
+                {tasksArray.map((task) => {
                     return (
-                          <li key={ind} className="my-2">
-                              <span className={completedTask.includes(ind) ? "checked" : ""} onClick={() => onCompleteHandler(ind)}>{task}</span>
-                              <button className='btn-del' onClick={() => handleDelete(ind)}>delete</button>
-                          </li>    
+                        <li key={task.id} className="my-2">
+                          <span onClick={() => onCompleteHandler(task.id)} className={task.completed ? "checked" : ""}>{task.taskBody}</span>
+                          <button className='btn-del' onClick={() => handleDelete(task.id)}>delete</button>
+                        </li>    
                     )
                 })}
             </ul>
