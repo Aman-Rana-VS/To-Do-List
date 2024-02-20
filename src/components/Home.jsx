@@ -21,10 +21,10 @@ const Home = () => {
 
   let onCompleteHandler = (id) => {
     console.log("clicked")
-    const temp = [...tasksArray];
-
-    let t = temp.find((item) => item.id === id);
-    t.completed = !t.completed;
+    const temp = tasksArray.map(t => {
+      if(t.id === id) t.completed = !t.completed;
+      return t;
+    })
     setTasksArray(temp);
   } 
 
@@ -34,8 +34,8 @@ const Home = () => {
 
   return (
     <div className="container">
-        <div className="mainDiv mx-auto">
-            <h2 className="my-4 ps-4"> To-Do List ✏️</h2>
+        <div className="mainDiv d-flex flex-column mx-auto align-items-center">
+            <h2 className="my-4"> To-Do List ✏️</h2>
             <form className="my-2" id="my-form">
                 <input id="todoItem" type="text" name="todoItem" placeholder="Enter task" value={task} onChange={onInputChangeHandler} />
                 <button type="button" onClick={onSubmitHandler}>Add Task</button>
@@ -45,7 +45,7 @@ const Home = () => {
                     return (
                         <li key={task.id} className="my-2">
                           <span onClick={() => onCompleteHandler(task.id)} className={task.completed ? "checked" : ""}>{task.taskBody}</span>
-                          <button className='btn-del' onClick={() => handleDelete(task.id)}>delete</button>
+                          <button className='btn-del btn btn-danger btn-sm' onClick={() => handleDelete(task.id)}>delete</button>
                         </li>    
                     )
                 })}
