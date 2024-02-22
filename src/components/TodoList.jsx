@@ -2,6 +2,7 @@ import React from 'react'
 
 const TodoList = ({tasksArray, setTasksArray, setTask, setEditId, inputRef, editId}) => {
   let handleDelete = (id) => {
+    if(!window.confirm("Do you want to delete the task ?")) return;
     setTasksArray(prev => prev.filter((el) => el.id !== id))
   }
 
@@ -30,7 +31,7 @@ const TodoList = ({tasksArray, setTasksArray, setTask, setEditId, inputRef, edit
                     <li key={task.id} className={"my-2 " + (task.completed ? "bg-green" : "")}>
                       <span onClick={() => onCompleteHandler(task.id)} className={task.completed ? "checked" : ""}>{task.taskBody}</span>
                       {task.isEdited ? <span className='edited'>(Edited)</span> : null}
-                      <button className='btn-del btn btn-danger btn-sm' onClick={() => handleDelete(task.id)}>Delete</button>
+                      {!editId ? <button className='btn-del btn btn-danger btn-sm' onClick={() => handleDelete(task.id)}>Delete</button> : null}
                       {!task.completed ?  
                       <button className='btn-edit btn btn-secondary btn-sm' onClick={() => hanldeEdit(task.id)}>Edit</button>
                         : null }

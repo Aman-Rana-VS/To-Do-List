@@ -2,6 +2,7 @@ import React from 'react'
 
 const AllButtons = ({tasksArray, setTasksArray}) => {
   function handleMarkAll() {
+    if(!window.confirm("Do you want to mark all as completed ?")) return;
     setTasksArray(prev => prev.map(t => {
         t.completed = true;
         return t;
@@ -9,6 +10,7 @@ const AllButtons = ({tasksArray, setTasksArray}) => {
   }
 
   function handleDeleteAll() {
+    if(!window.confirm("Do you want to delete all the tasks ?")) return;
     setTasksArray([]);
   }
   return (
