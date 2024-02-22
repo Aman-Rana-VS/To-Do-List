@@ -1,7 +1,8 @@
-.mainDiv {
-  width: fit-content;
-  height: fit-content;
+body {
+  padding: 0;
+  margin: 0;
 }
+
 .checked {
   text-decoration:line-through;
 }
@@ -40,4 +41,27 @@ ul {
 
 .bg-green {
   background-color: #4ef037;
+}
+
+.footer {
+  position: fixed;
+  bottom: 0%;
+  background-color: blanchedalmond;
+  width: 100%;
+  font-size: x-large;
+  display: flex;
+  justify-content: space-around;
+  color: blue;
+  margin: 0;
+}
+
+.edited {
+  font-style: italic;
+  font-size: smaller;
+  margin-left: 10px;
+  color: gray;
+}
+
+.cancel-btn {
+  margin-left: 5px;
 }
